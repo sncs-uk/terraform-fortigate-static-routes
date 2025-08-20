@@ -17,7 +17,7 @@ locals {
 
   routes            = flatten([
     for vdom in var.vdoms : [
-      for route in local.vdom_static_yaml[vdom] : [ merge(route, { vdom = vdom }) ]
+      for route in try(local.vdom_static_yaml[vdom], []) : [ merge(route, { vdom = vdom }) ]
     ]
   ])
 }
