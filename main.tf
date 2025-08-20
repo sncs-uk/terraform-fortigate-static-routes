@@ -12,7 +12,7 @@ terraform {
 }
 locals {
   vdom_static_yaml  = {
-    for vdom in var.vdoms : vdom => yamldecode(file("${var.config_path}/config/${vdom}/static.yaml")) if fileexists("${var.config_path}/config/${vdom}/static.yaml")
+    for vdom in var.vdoms : vdom => yamldecode(file("${var.config_path}/${vdom}/static.yaml")) if fileexists("${var.config_path}/${vdom}/static.yaml")
   }
 
   routes            = flatten([
