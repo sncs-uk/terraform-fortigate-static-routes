@@ -24,7 +24,7 @@ locals {
 
 resource fortios_router_static static_route {
   for_each              = { for route in try(local.routes, []) : "${route.dst}_${route.gateway}" => route}
-  device                = each.value.device
+  device                = try(each.value.device, null)
   dst                   = each.value.dst
   gateway               = each.value.gateway
   vdomparam             = each.value.vdom
