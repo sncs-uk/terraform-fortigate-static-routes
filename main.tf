@@ -25,10 +25,10 @@ locals {
 }
 
 resource "fortios_router_static" "static_route" {
-  for_each            = { for route in try(local.routes, []) : "${route.dst}_${route.gateway}" => route }
+  for_each            = { for route in try(local.routes, []) : "${route.dst}_${try(route.gateway, try(route.blackhole, "disable") == "enable" ? "blackhole" : try(route.device, ""))}" => route }
   device              = try(each.value.device, null)
   dst                 = each.value.dst
-  gateway             = each.value.gateway
+  gateway             = try(each.value.gateway, null)
   vdomparam           = each.value.vdom
   bfd                 = try(each.value.bfd, null)
   blackhole           = try(each.value.blackhole, null)
